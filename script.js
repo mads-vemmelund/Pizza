@@ -7,8 +7,10 @@ const defaults = {
   water: { label: 'Lunkent vand', value: 150, unit: 'ml' }
 };
 
+const basePeople = 2;
+
 const state = {
-  people: 2,
+  people: basePeople,
   recipe: {
     flour: 250,
     yeast: 3.5,
@@ -19,10 +21,27 @@ const state = {
   }
 };
 
-const clampPeople = (value) => Math.min(12, Math.max(1, Number(value) || 2));
+const clampPeople = (value) => Math.min(12, Math.max(1, Number(value) || basePeople));
+
+const normalizeNumber = (value) => {
+  if (!Number.isFinite(value)) return 0;
+  const rounded = Number(value.toFixed(2));
+  return Number.isInteger(rounded) ? rounded : Number(rounded.toFixed(1));
+};
+
+const buildScaledRecipe = (people) => {
+  const multiplier = people / basePeople;
+  const result = {};
+
+  Object.entries(defaults).forEach(([key, item]) => {
+    result[key] = normalizeNumber(item.value * multiplier);
+  });
+
+  return result;
+};
 
 function render() {
-  const multiplier = state.people / 2;
+  const multiplier = state.people / basePeople;
 
   document.getElementById('peopleCount').value = state.people;
   document.getElementById('peopleRange').value = state.people;
@@ -36,13 +55,11 @@ function render() {
   ingredientList.innerHTML = '';
 
   Object.entries(defaults).forEach(([key, item]) => {
-    const scaledValue = state.recipe[key] * multiplier;
-    const formatted = Number.isInteger(scaledValue) ? scaledValue : scaledValue.toFixed(1);
-
+    const amount = state.recipe[key];
     const li = document.createElement('li');
     li.innerHTML = `
       <span class="name">${item.label}</span>
-      <span class="amount">${formatted} ${item.unit}</span>
+      <span class="amount">${amount} ${item.unit}</span>
     `;
     ingredientList.appendChild(li);
   });
@@ -57,32 +74,50 @@ const peopleRangeInput = document.getElementById('peopleRange');
 
 peopleCountInput.addEventListener('input', (event) => {
   state.people = clampPeople(event.target.value);
+  state.recipe = buildScaledRecipe(state.people);
   render();
 });
 
 peopleRangeInput.addEventListener('input', (event) => {
   state.people = clampPeople(event.target.value);
+  state.recipe = buildScaledRecipe(state.people);
   render();
 });
 
 Object.keys(defaults).forEach((key) => {
   const input = document.getElementById(key);
+
   input.addEventListener('input', (event) => {
     const nextValue = Number(event.target.value);
     if (!Number.isFinite(nextValue) || nextValue < 0) {
       return;
     }
+
     state.recipe[key] = nextValue;
-    render();
   });
+
+  const finalizeIngredientEdit = (event) => {
+    const nextValue = Number(event.target.value);
+    if (!Number.isFinite(nextValue) || nextValue < 0) {
+      return;
+    }
+
+    const baseValue = defaults[key].value;
+    const derivedPeople = clampPeople((nextValue / baseValue) * basePeople);
+    state.people = derivedPeople;
+    state.recipe = buildScaledRecipe(state.people);
+    render();
+  };
+
+  input.addEventListener('change', finalizeIngredientEdit);
+  input.addEventListener('blur', finalizeIngredientEdit);
 });
 
 document.getElementById('resetBtn').addEventListener('click', () => {
-  state.people = 2;
-  Object.keys(defaults).forEach((key) => {
-    state.recipe[key] = defaults[key].value;
-  });
+  state.people = basePeople;
+  state.recipe = buildScaledRecipe(state.people);
   render();
 });
 
+state.recipe = buildScaledRecipe(state.people);
 render();

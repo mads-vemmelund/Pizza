@@ -82,6 +82,12 @@ h1 {
   margin-bottom: 20px;
 }
 
+.input-hint {
+  margin: 0 0 18px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
 .field {
   margin-bottom: 16px;
 }
