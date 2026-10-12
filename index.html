@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="da">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pizza dej – skalerbar opskrift</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Hjemmelavet pizza</p>
+          <h1>Pizza dej</h1>
+        </div>
+        <div class="badge">Skalerbar opskrift</div>
+      </header>
+
+      <main class="layout">
+        <section class="card controls">
+          <h2>Indstillinger</h2>
+
+          <div class="field">
+            <label for="peopleCount">Antal personer</label>
+            <div class="people-input-row">
+              <input id="peopleCount" type="number" min="1" max="12" value="2" />
+              <input id="peopleRange" type="range" min="1" max="12" value="2" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="flour">Hvedemel</label>
+            <div class="unit-row">
+              <input id="flour" type="number" min="0" step="10" value="250" />
+              <span>g</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="yeast">Tørgær</label>
+            <div class="unit-row">
+              <input id="yeast" type="number" min="0" step="0.5" value="3.5" />
+              <span>g</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="salt">Salt</label>
+            <div class="unit-row">
+              <input id="salt" type="number" min="0" step="0.1" value="0.5" />
+              <span>tsk</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="sugar">Sukker</label>
+            <div class="unit-row">
+              <input id="sugar" type="number" min="0" step="0.1" value="0.5" />
+              <span>tsk</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="oil">Olivenolie</label>
+            <div class="unit-row">
+              <input id="oil" type="number" min="0" step="0.1" value="1" />
+              <span>spsk</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="water">Lunkent vand</label>
+            <div class="unit-row">
+              <input id="water" type="number" min="0" step="10" value="150" />
+              <span>ml</span>
+            </div>
+          </div>
+
+          <button id="resetBtn" class="secondary-btn" type="button">Nulstil til 2 personer</button>
+        </section>
+
+        <section class="card recipe">
+          <div class="recipe-header">
+            <div>
+              <p class="eyebrow">Opskrift</p>
+              <h2>Skaleret mængde</h2>
+            </div>
+            <div class="scale-pill"><span id="multiplierDisplay">1x</span></div>
+          </div>
+
+          <div class="summary-box">
+            <p>Dette er beregnet til <strong id="peopleLabel">2 personer</strong>.</p>
+            <p>Skaleringsfaktor: <strong id="factorLabel">1</strong></p>
+          </div>
+
+          <ul id="ingredientList" class="ingredient-list"></ul>
+
+          <div class="method">
+            <h3>Fremgangsmåde</h3>
+            <ol>
+              <li>Bland mel, salt og sukker i en skål.</li>
+              <li>Opløs gæren i det lunkne vand.</li>
+              <li>Hæld vandet i melet sammen med olivenolien.</li>
+              <li>Ælt dejen i 8–10 minutter, indtil den er glat og elastisk.</li>
+              <li>Dæk skålen til og lad dejen hæve i 45–60 minutter.</li>
+              <li>Del dejen i to dele, hvis du vil lave to mindre pizzaer.</li>
+              <li>Rul dejen ud til ønsket tykkelse.</li>
+              <li>Tilsæt topping og bag ved 220–250°C i 10–15 minutter.</li>
+            </ol>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
