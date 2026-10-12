@@ -1,5 +1,6 @@
 const defaults = {
   flour: { label: 'Hvedemel', value: 250, unit: 'g' },
+  gluten: { label: 'Gluten', value: 10, unit: 'g' },
   yeast: { label: 'Tørgær', value: 3.5, unit: 'g' },
   salt: { label: 'Salt', value: 0.5, unit: 'tsk' },
   sugar: { label: 'Sukker', value: 0.5, unit: 'tsk' },
@@ -13,6 +14,7 @@ const state = {
   people: basePeople,
   recipe: {
     flour: 250,
+    gluten: 10,
     yeast: 3.5,
     salt: 0.5,
     sugar: 0.5,
